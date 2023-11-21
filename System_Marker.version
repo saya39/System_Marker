@@ -1,0 +1,11 @@
+{
+    "masterVersionFile":"https://raw.githubusercontent.com/saya39/System_Marker/master/System_Marker.version",
+    "modName":"System Marker",
+    "modThreadId":28386,
+    "modVersion":
+    {
+        "major":0,
+        "minor":1,
+        "patch":7-RC2
+    }
+}
