@@ -1,0 +1,135 @@
+fieldID,fieldName,fieldType,defaultValue,secondaryValue,fieldDescription,minValue,maxValue,tab
+,,,,,,,,
+STM_globalHeader,Global Header,Header,Global,,,,,
+enableLunaSetting,Enable LunaLib setting,Boolean,false,,"Will use the setting in SYSTEM_MARKER_OPTIONS.ini if false.",,,
+showWhenInterfaceIsHidden,Show markers when interface is hidden,Boolean,false,,,,,
+rotateWithFluxReticle,Rotate with Flux Reticle,Boolean,true,,"Only active when you using 'Flux Reticle'。
+Let markers around cursor rotate with the 'Flux Reticle' replaced one.",,,
+rotateTopOfRings,Rotatethe top of rings,Boolean,true,,"Only active when you using 'Flux Reticle', and 'Rotate with Flux Reticle,Boolean' is true.
+Let the top of the markers' ring rotate with the cursor.",,,
+,,,,,,,,
+STM_shipSystemMarkerHeader,Ship System Marker Header,Header,Ship System Marker,,,,,
+enableShipSystemMarker,Enable Ship System Marker,Boolean,true,,"Ship System Marker shows the remaining of your ship's system, and cooling down with a ring.
+Displayed at the top left of the cursor.",,,
+systemMarkerRingThickness,Thickness of Ship System Marker's ring,Double,2,,,0,999,
+systemMarkerRingRadius,Radius of Ship System Marker's ring,Double,8,,,0,999,
+systemMarkerRingShiftX,Horizontal shift of Ship System Marker's ring,Double,32,,,-999,999,
+systemMarkerRingShiftY,Vertical shift of Ship System Marker's ring,Double,0,,,-999,999,
+systemMarkerRingAlphaMain,Alpha of Ship System Marker's main ring,Double,0.8,,PS: the dynamic one.,0,1,
+systemMarkerRingAlphaBack,Alpha of Ship System Marker's back ring,Double,0.1,,PS: the static one.,0,1,
+systemMarkerAmmoFontSize,Font size of the ships system's remaining,12,,,0,999,
+systemMarkerAmmoShiftX,Horizontal shift of the ships system's remaining,Double,32,,,-999,999,
+systemMarkerAmmoShiftY,Horizontal shift of the ships system's remaining,Double,0,,,-999,999,
+,,,,,,,,
+STM_specialSystemMarkerHeader,Special System Marker Header,Header,Special System Marker,,,,,
+enableSpecialSystemMarker,enable Special System Marker,Boolean,true,,"Contains Shield marker.
+Shows the remaining of your ship's special defence system, and cool down with a ring, if she has one.
+Shows the shield states including max arc, current facing, if she has one.
+Displayed at the bottom left of the cursor.",,,
+specialMarkerRingThickness,Thickness of Special System Marker's ring,Double,2,,,0,999,
+specialMarkerRingRadius,Radius of Special System Marker's ring,Double,8,,,0,999,
+specialMarkerRingShiftX,Horizontal shift of Special System Marker's ring,Double,32,,,-999,999,
+specialMarkerRingShiftY,Vertical shift of Special System Marker's ring,Double,-32,,,-999,999,
+specialMarkerRingAlphaMain,Alpha of Special System Marker's main ring,Double,0.8,,,0,1,
+specialMarkerRingAlphaBack,Alpha of Special System Marker's back ring,Double,0.1,,,0,1,
+specialMarkerAmmoFontSize,Font size of the Special system's remaining,Double,12,,,0,999,
+specialMarkerAmmoShiftX,Horizontal shift of the Special system's remaining,Double,32,,,-999,999,
+specialMarkerAmmoShiftY,Vertical shift of the Special system's remaining,Double,-32,,,-999,999,
+,,,,,,,,
+STM_ammoRemainingMarkerHeader,Ammo Remaining Marker Header,Header,Ammo Remaining Marker,,,,,
+enableAmmoRemainingMarker,Enable Ammo Remaining Marker,Boolean,true,,"Shows weapons' ammo remaining of the ally ship which you locked on.
+The marker will fade after several seconds.",,,
+ammoRemainingMarkerRotateWithShip,Ammo Remaining Marker rotate with ship,Boolean,false,,,,,
+ammoRemainingMarkerFontSize,Font size of Ammo Remaining Marker,Double,12,,,0,999,
+ammoRemainingMarkerDisplayingTime,Displaying Time of Ammo Remaining Marker,Double,3,,,0,999,
+ammoRemainingMarkerFadingTime,Fading Time of Ammo Remaining Marker,Double,0.2,,,0,999,
+,,,,,,,,
+STM_weaponRepairMarkerHeader,Weapon repair Marker Header,Header,Weapon repair Marker,,,,,
+enableWeaponRepairMarker,Enable Weapon repair Marker,Boolean,true,,"Shows offlined weapons' repair progress of your ship and the ally ship which you locked on.",,,
+weaponRepairMarkerSizeSmall,Weapon repair Marker's size of small slot weapons,Double,28,,,0,999,
+weaponRepairMarkerSizeMedium,Weapon repair Marker's size of medium slot weapons,Double,34,,,0,999,
+weaponRepairMarkerSizeLarge,Weapon repair Marker's size of large slot weapons,Double,48,,,0,999,
+weaponRepairMarkerAlpha,Alpha of Weapon repair Marker,Double,0.6,,,0,1,
+,,,,,,,,
+STM_engineRepairMarkerHeader,Engine Repair Marker Header,Header,Engine Repair Marker,,,,,
+enableEngineRepairMarker,Enable Engine Repair Marker,Boolean,true,,"Shows offlined engines' repair progress of your ship and the ally ship which you locked on.",,,
+engineRepairMarkerSizeMult,Size multiplier of Engine Repair Marker,Double,1,,,0,999,
+engineRepairMarkerAlpha,Alpha of Engine repair Marker,Double,0.4,,,0,1,
+,,,,,,,,
+STM_torpedoMarkerHeader,Torpedo Marker Header,Header,Torpedo Marker,,,,,
+enableTorpedoMarker,Enable Torpedo Marker,Boolean,true,,"Shows unguided torpedos which may hit your ship in several seconds.",,,
+torpedoMarkerMode,Torpedo Marker's mode,Radio,"bound","bound, rangeRough","Toggle the caculating mode to balance between accuracy and performance
+ - bound
+Caculate through the bound of your ship. High accuracy, low performance.
+ - rangeRough
+Caculate through the collision radius of your ship. Low accuracy, High performance.",,,
+torpedoMarkerThickness,Thickness of Torpedo Marker,Double,1,,,0,999,
+torpedoMarkerSizeMult,Size multiplier of Torpedo Marker,Double,1,,,0,999,
+torpedoMarkerAlpha,Alpha of Torpedo Marker,Double,0.8,,,0,1,
+torpedoMarkerEnableCountMissile,Torpedo Marker counts Missile,Boolean,true,,"Toggle true to let Torpedo Marker count guided Missile.
+Missiles which are facing with your ship and close enough will be counted.",,,
+torpedoMarkerMissileWithinAngle,Torpedo Marker missile within angle,Double,90,,"if the angle between the missile and your ship is less than this value,
+the missile will be counted, if it is close enough too.",0,180,
+,,,,,,,,
+STM_mineMarkerHeader,Mine Marker Header,Header,Mine Marker,,,,,
+enableMineMarker,Enable Mine Marker,Boolean,true,,"show mines arounds your ship which may cause damage.",,,
+mineMarkerSizeMult,Size multiplier of Mine Marker,Double,1,,,0,999,
+mineMarkerAlpha,Alpha of Mine Marker,Double,0.8,,,0,1,
+mineMarkerBlinkRangeMult,Range multiplier of Mine Marker to blink,Double,1,,"if the mine is closer than this range to your ship's collision dadius,
+it's marker will start to blink.
+Default is the mine's explosion range.",0,999,
+,,,,,,,,
+STM_torpedoAlarmHeader,Torpedo Alarm Header,Header,Torpedo Alarm,,,,,
+enableAlarm,Enable Torpedo Alarm,Boolean,true,,"Only works when at least one is enable between Torpedo Marker and Mine Marker.
+Plays three levels of alarms based on the total damage of torpedos and mines which Torpedo Marker and Mine Marker counted.",,,
+alarmVolumeMult,Audio volume of Torpedo Alarm,Double,1,,,0,999,
+alarmDamageLv1,Threshold of Torpedo Alarm Lv1,Double,2000,,,0,999999,
+alarmDamageLv2,Threshold of Torpedo Alarm Lv2,Double,4000,,,0,999999,
+alarmDamageLv3,Threshold of Torpedo Alarm Lv3,Double,8000,,,0,999999,
+,,,,,,,,
+STM_globalHeader,Global Header,Header,Global,,,,,Colors
+enableLunaColorSetting,Enable LunaLib color setting,Boolean,false,,"Only works when 'Enable LunaLib setting' is true.",,,Colors
+,,,,,,,,
+STM_shipSystemMarkerColorHeader,Ship System Marker Color Header,Header,Ship System Marker,,,,,Colors
+systemMarkerOverrideColors,Override colors of Ship System Marker,Boolean,false,,,,,Colors
+systemMarkerRingColorNormal,Color of Ship System Marker's ring normal,Color,#f22e6e,,,,,Colors
+systemMarkerRingColorUsing,Color of Ship System Marker's ring using,Color,#f22e6e,,,,,Colors
+systemMarkerRingColorOutOfAmmo,Color of Ship System Marker's ring out of ammo,Color,#f22e6e,,,,,Colors
+systemMarkerAmmoColorNormal,Color of Ship System Marker's remaining normal,Color,#f22e6e,,,,,Colors
+systemMarkerAmmoColorUsing,Color of Ship System Marker's remaining using,Color,#f22e6e,,,,,Colors
+systemMarkerAmmoColorOutOfAmmo,Color of Ship System Marker's remaining out of ammo,Color,#f22e6e,,,,,Colors
+,,,,,,,,
+STM_specialSystemMarkerColorHeader,Special System Marker Color Header,Header,Special System Marker,,,,,Colors
+specialMarkerOverrideColors,Override colors of Special System Marker,Boolean,false,,,,,Colors
+specialMarkerRingColorNormal,Color of Special System Marker's ring normal,Color,#f22e6e,,,,,Colors
+specialMarkerRingColorUsing,Color of Special System Marker's ring using,Color,#f22e6e,,,,,Colors
+specialMarkerRingColorOutOfAmmo,Color of Special System Marker's ring out of ammo,Color,#f22e6e,,,,,Colors
+specialMarkerAmmoColorNormal,Color of Special System Marker's remaining normal,Color,#f22e6e,,,,,Colors
+specialMarkerAmmoColorUsing,Color of Special System Marker's remaining using,Color,#f22e6e,,,,,Colors
+specialMarkerAmmoColorOutOfAmmo,Color of Special System Marker's remaining out of ammo,Color,#f22e6e,,,,,Colors
+,,,,,,,,
+STM_ammoRemainingMarkerColorHeader,Ammo remaining Marker Color Header,Header,Ammo remaining Marker,,,,,Colors
+ammoRemainingMarkerOverrideColors,Override colors of Ammo remaining Marker,Boolean,false,,,,,Colors
+ammoRemainingMarkerColor,Color of Ammo remaining Marker full,Color,#f22e6e,,,,,Colors
+ammoRemainingMarkerColorHalf,Color of Ammo remaining Marker half full,Color,#f22e6e,,,,,Colors
+ammoRemainingMarkerColorEmpty,Color of Ammo remaining Marker no ammo,Color,#f22e6e,,,,,Colors
+,,,,,,,,
+STM_weaponRepairMarkerColorHeader,Weapon repair Marker Color Header,Header,Weapon repair Marker,,,,,Colors
+weaponRepairMarkerOverrideColors,Override colors of Weapon repair Marker,Boolean,false,,,,,Colors
+weaponRepairMarkerColorFriendly,Color of Weapon repair Marker friendly,Color,#f22e6e,,,,,Colors
+weaponRepairMarkerColorAlly,Color of Weapon repair Marker ally,Color,#f22e6e,,,,,Colors
+,,,,,,,,
+STM_engineRepairMarkerColorHeader,Engine repair Marker Color Header,Header,Engine repair Marker,,,,,Colors
+engineRepairMarkerOverrideColors,Override colors of Engine repair Marker,Boolean,false,,,,,Colors
+engineRepairMarkerColorFriendly,Color of Weapon repair Marker friendly,Color,#f22e6e,,,,,Colors
+engineRepairMarkerColorAlly,Color of Weapon repair Marker ally,Color,#f22e6e,,,,,Colors
+,,,,,,,,
+STM_torpedoMarkerColorHeader,Torpedo Marker Color Header,Header,Torpedo Marker,,,,,Colors
+torpedoMarkerOverrideColors,Override colors of Torpedo Marker,Boolean,false,,,,,Colors
+torpedoMarkerColorAlarm,Color of Torpedo Marker medium range,Color,#f22e6e,,,,,Colors
+torpedoMarkerColorDanger,Color of Torpedo Marker close range,Color,#f22e6e,,,,,Colors
+,,,,,,,,
+STM_mineMarkerColorHeader,Mine Marker Color Header,Header,Mine Marker,,,,,Colors
+mineMarkerOverrideColors,Override colors of Mine Marker,Boolean,false,,,,,Colors
+mineMarkerColor,Color of Mine Marker,Color,#f22e6e,,,,,Colors
+,,,,,,,,

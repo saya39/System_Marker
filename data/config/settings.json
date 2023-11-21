@@ -1,0 +1,5 @@
+{
+    "plugins":{
+		"STM_EveryFramePlugin":"data.scripts.plugins.STM_EveryFramePlugin",
+    },
+}

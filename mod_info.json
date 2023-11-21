@@ -1,0 +1,12 @@
+{
+	"id":"System_Marker",
+	"name":"System Marker",
+	"version":"0.1.7-RC2",
+	"author":"saya39",
+	"description":"Adds several grafical information markers around the cursor. ",
+	"gameVersion":"0.96a-RC10",
+	"dependencies": [
+		{"id": "lw_lazylib", "name": "LazyLib"}
+	  ],	
+	"jars":["jars/System_Marker.jar"]
+}

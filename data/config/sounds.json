@@ -1,0 +1,17 @@
+{
+	"STM_alarm_lv1":{	
+		"sounds":[
+			{"file":"sounds/sfx/STM_alarm_lv1.ogg","pitch":1,"volume":1.0},
+		],
+	},
+	"STM_alarm_lv2":{	
+		"sounds":[
+			{"file":"sounds/sfx/STM_alarm_lv2.ogg","pitch":1,"volume":1.0},
+		],
+	},
+	"STM_alarm_lv3":{	
+		"sounds":[
+			{"file":"sounds/sfx/STM_alarm_lv3.ogg","pitch":1,"volume":1.0},
+		],
+	},
+}
