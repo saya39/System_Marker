@@ -72,7 +72,7 @@ torpedoMarkerMissileWithinAngle,Torpedo Marker missile within angle,Double,90,,"
 the missile will be counted, if it is close enough too.",0,180,
 ,,,,,,,,
 STM_mineMarkerHeader,Mine Marker Header,Header,Mine Marker,,,,,
-enableMineMarker,Enable Mine Marker,Boolean,true,,"show mines arounds your ship which may cause damage.",,,
+enableMineMarker,Enable Mine Marker,Boolean,true,,"Shows mines arounds your ship which may cause damage.",,,
 mineMarkerSizeMult,Size multiplier of Mine Marker,Double,1,,,0,999,
 mineMarkerAlpha,Alpha of Mine Marker,Double,0.8,,,0,1,
 mineMarkerBlinkRangeMult,Range multiplier of Mine Marker to blink,Double,1,,"if the mine is closer than this range to your ship's collision dadius,
