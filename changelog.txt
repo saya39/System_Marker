@@ -1,5 +1,5 @@
 2023/11/25 0.1.7-RC3
-Torpedo Marker (including Mine Marker) - added an option to control how many frames between every missile tracking
+Torpedo Marker (including Mine Marker) - added an option to control how many frames between each traversals in code
 
 2023/11/21 0.1.7-RC2
 published on Fractal
