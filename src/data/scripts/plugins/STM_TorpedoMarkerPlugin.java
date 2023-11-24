@@ -1,7 +1,10 @@
 package data.scripts.plugins;
 
 import com.fs.starfarer.api.Global;
-import com.fs.starfarer.api.combat.*;
+import com.fs.starfarer.api.combat.CombatEngineAPI;
+import com.fs.starfarer.api.combat.MissileAPI;
+import com.fs.starfarer.api.combat.ShipAPI;
+import com.fs.starfarer.api.combat.ViewportAPI;
 import com.fs.starfarer.api.input.InputEventAPI;
 import com.fs.starfarer.api.util.Misc;
 import org.json.JSONObject;
@@ -10,6 +13,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +21,7 @@ import java.util.Map;
 public class STM_TorpedoMarkerPlugin extends STM_EveryFramePlugin {
     public static final String ID = "STM_TorpedoMarkerPlugin";
 
+    private static int torpedoMarkerPerFrame = 1;
     private static String torpedoMarkerMode = "bound"; // bound, rangeRough
     private static float torpedoMarkerSizeMult = 1f;
     private static float torpedoMarkerThickness = 2f;
@@ -49,6 +54,7 @@ public class STM_TorpedoMarkerPlugin extends STM_EveryFramePlugin {
         try {
             JSONObject cfg = Global.getSettings().getMergedJSONForMod("SYSTEM_MARKER_OPTIONS.ini", "System_Marker");
 
+            torpedoMarkerPerFrame = getInt(cfg, "torpedoMarkerPerFrame", torpedoMarkerPerFrame);
             torpedoMarkerMode = getString(cfg, "torpedoMarkerMode", torpedoMarkerMode);
             torpedoMarkerSizeMult = (float) getDouble(cfg, "torpedoMarkerSizeMult", torpedoMarkerSizeMult);
             torpedoMarkerThickness = (float) getDouble(cfg, "torpedoMarkerThickness", torpedoMarkerThickness);
@@ -86,8 +92,6 @@ public class STM_TorpedoMarkerPlugin extends STM_EveryFramePlugin {
         float alphaMult = viewport.getAlphaMult();
         if (alphaMult <= 0f) return;
 
-        List<DamagingProjectileAPI> damagingProjectiles = engine.getProjectiles();
-
         ShipAPI ship = engine.getPlayerShip();
         if(engine.getPlayerShip() == null) return;
 
@@ -95,20 +99,27 @@ public class STM_TorpedoMarkerPlugin extends STM_EveryFramePlugin {
 
         if (!engine.getCustomData().containsKey(ID)) return;
         LocalData localData = (LocalData) engine.getCustomData().get(ID);
+        Map<MissileAPI, Float> torpedoList = localData.torpedoList;
+        Map<MissileAPI, Float> missileList = localData.missileList;
         Map<MissileAPI, MineData> mineData = localData.mineData;
 
-        Map<MissileAPI, Float> torpedoList = new HashMap<>();
-        Map<MissileAPI, Float> missileList = new HashMap<>();
-        for (DamagingProjectileAPI damagingProjectile : damagingProjectiles) {
-            if (!(damagingProjectile instanceof MissileAPI)) continue;
-            MissileAPI missile = (MissileAPI) damagingProjectile;
-            if (!engine.isEntityInPlay(missile) || missile.getProjectileSpecId() == null || missile.didDamage() || missile.isFading()) continue;
-            if (missile.getSource() != null && missile.getSource().equals(ship)) continue;
-            if (missile.getSource() != null && ship.isShipWithModules() && ship.getChildModulesCopy().contains(missile.getSource())) continue;
+        if (localData.framePassed + 1 >= torpedoMarkerPerFrame){
+            localData.framePassed = 0;
+            torpedoList.clear();
+            missileList.clear();
 
-            putTorpedoList(missile, torpedoList, ship);
-            putMissileList(missile, missileList, ship);
-            putMineData(missile, mineData, ship);
+            for (MissileAPI missile : engine.getMissiles()) {
+                if (!engine.isEntityInPlay(missile) || missile.getProjectileSpecId() == null || missile.didDamage() || missile.isFading()) continue;
+                if (missile.getSource() != null && missile.getSource().equals(ship)) continue;
+                if (missile.getSource() != null && ship.isShipWithModules() && ship.getChildModulesCopy().contains(missile.getSource())) continue;
+
+                putTorpedoList(missile, torpedoList, ship);
+                putMissileList(missile, missileList, ship);
+                putMineData(missile, mineData, ship);
+            }
+
+        } else{
+            localData.framePassed += 1;
         }
 
         glIn(viewport);
@@ -123,8 +134,9 @@ public class STM_TorpedoMarkerPlugin extends STM_EveryFramePlugin {
     private void putTorpedoList(MissileAPI missile, Map<MissileAPI, Float> torpedoList, ShipAPI ship) {
         if (!enableTorpedoMarker || missile.isGuided() || missile.isMine() || torpedoList.containsKey(missile)) return;
 
-        float sec = getSecToHitBound(missile, ship);
-        if(torpedoMarkerMode.equals("rangeRough"))sec = getSecToHitRangeRough(missile, ship);
+        float sec;
+        if(torpedoMarkerMode.equals("rangeRough")) sec = getSecToHitRangeRough(missile, ship);
+        else sec = getSecToHitBound(missile, ship);
 //        else if(torpedoMarkerMode.equals("rangeAccurate")) sec = getSecToHitRangeAccurate(missile, ship);
         if(sec <= 5f){
             torpedoList.put(missile, sec);
@@ -208,11 +220,20 @@ public class STM_TorpedoMarkerPlugin extends STM_EveryFramePlugin {
     private float drawTorpedoMarkerList(Map<MissileAPI, Float> torpedoList, float alphaMult, ViewportAPI viewport) {
         if (torpedoList.isEmpty()) return 0f;
         float dangerClass = 0f;
+        List<MissileAPI> toRemoveList = new ArrayList<>();
         for (Map.Entry<MissileAPI, Float> entry : torpedoList.entrySet()) {
             MissileAPI missile = entry.getKey();
             float sec = entry.getValue();
-            if (missile == null || missile.isExpired() || missile.didDamage())  continue;
+            if (missile == null || missile.isExpired() || missile.didDamage()) {
+                toRemoveList.add(missile);
+                continue;
+            }
             dangerClass += drawTorpedoMarker(missile, alphaMult, viewport, sec);
+        }
+        if(!toRemoveList.isEmpty()) {
+            for(MissileAPI toRemove : toRemoveList){
+                torpedoList.remove(toRemove);
+            }
         }
         return dangerClass;
     }
@@ -250,24 +271,31 @@ public class STM_TorpedoMarkerPlugin extends STM_EveryFramePlugin {
     private float drawMineMarkerList(Map<MissileAPI, MineData> mineData, ShipAPI ship, float alphaMult, ViewportAPI viewport, float amount) {
         if (!enableMineMarker || mineData.isEmpty()) return 0f;
         float dangerClass = 0f;
+        List<MissileAPI> removeList = new ArrayList<>();
         for (Map.Entry<MissileAPI, MineData> entry : mineData.entrySet()) {
             MissileAPI mine = entry.getKey();
             MineData value = entry.getValue();
-            if (!engine.isEntityInPlay(mine) || mine.getProjectileSpecId() == null || mine.didDamage() || mine.isFading()) continue;
+            if (mine == null || !engine.isEntityInPlay(mine) || mine.getProjectileSpecId() == null || mine.didDamage() || mine.isFading()) {
+                removeList.add(mine);
+                continue;
+            }
 
             Vector2f from = mine.getLocation();
             float length = Vector2f.sub(ship.getLocation(), from, null).length() - ship.getCollisionRadius();
             float range = mine.getMineExplosionRange() * mineMarkerBlinkRangeMult;
 
-            if (length > range) continue;
+            if (length > range) {
+                value.timer = 2f; //set to max
+                continue;
+            }
 
             if (length >= range * 0.5f) {
                 dangerClass += mine.getDamageAmount();
-                if (!engine.isPaused()) value.timer = Math.min(Math.abs(value.timer) + amount * 8f, 2f);
+                if (!engine.isPaused()) value.timer = Math.min(Math.abs(value.timer) + amount * 8f, 2f); // move to max
             } else {
                 dangerClass += mine.getDamageAmount() * 2f;
                 if (!engine.isPaused() && value.timer <= -2f) value.timer = 2f;
-                else if (!engine.isPaused()) value.timer = Math.max(value.timer - amount * 8f, -2f);
+                else if (!engine.isPaused()) value.timer = Math.max(value.timer - amount * 8f, -2f); // blink
             }
             float glowAlpha = (float) (2f - Math.pow(2f + value.timer, 2)) * 0.5f;
             if (value.timer > 1f) glowAlpha = (float) (2f - Math.pow(2f - value.timer, 2)) * 0.5f;
@@ -276,6 +304,11 @@ public class STM_TorpedoMarkerPlugin extends STM_EveryFramePlugin {
             float alpha = 1f * alphaMult * glowAlpha;
             if (alpha <= 0f) continue;
             drawMineMarker(color, alpha, mine.getLocation(), mineMarkerSizeMult * mine.getCollisionRadius(), mine.getFacing() - 90f, viewport);
+        }
+        if(!removeList.isEmpty()){
+            for (MissileAPI toRemove : removeList){
+                mineData.remove(toRemove);
+            }
         }
         return dangerClass;
     }
@@ -320,7 +353,11 @@ public class STM_TorpedoMarkerPlugin extends STM_EveryFramePlugin {
     }
 
     private final static class LocalData {
+        private final Map<MissileAPI, Float> torpedoList = new HashMap<>();
+        private final Map<MissileAPI, Float> missileList = new HashMap<>();
         private final Map<MissileAPI, MineData> mineData = new HashMap<>();
+
+        private int framePassed = 0;
     }
 
     private final static class MineData {
