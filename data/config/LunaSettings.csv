@@ -58,9 +58,9 @@ engineRepairMarkerAlpha,Alpha of Engine repair Marker,Double,0.4,,,0,1,
 ,,,,,,,,
 STM_torpedoMarkerHeader,Torpedo Marker Header,Header,Torpedo Marker,,,,,
 enableTorpedoMarker,Enable Torpedo Marker,Boolean,true,,"Shows unguided torpedos which may hit your ship in several seconds.",,,
-torpedoMarkerPerFrame,Torpedo Marker traversal per frame,Int,1,,"control how many frames between every traversal in code (including Mine Marker).
+torpedoMarkerPerFrame,Torpedo Marker traversal per frame,Int,1,,"control how many frames between each traversals in code (including Mine Marker).
 turn it up to get a higher performance.
-1 means per 1 frame(every frame), 2 means per 2 frames, and so on.",1,60,
+1 means traversal once per 1 frame(every frame), 2 means traversal once per 2 frames, and so on.",1,60,
 torpedoMarkerMode,Torpedo Marker's mode,Radio,"bound","bound, rangeRough","Toggle the caculating mode to balance between accuracy and performance
  - bound
 Caculate through the bound of your ship. High accuracy, low performance.
