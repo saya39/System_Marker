@@ -36,6 +36,7 @@ public class STM_SystemMarkerPlugin extends STM_EveryFramePlugin {
 
     private static boolean rotateWithFluxReticle = true;
     private static boolean rotateTopOfRings = true;
+    private static boolean syncColorWithFluxReticle = true;
 
     private static boolean showReticle = true;
 
@@ -66,6 +67,7 @@ public class STM_SystemMarkerPlugin extends STM_EveryFramePlugin {
             //global
             rotateWithFluxReticle = getBoolean(cfg, "rotateWithFluxReticle", rotateWithFluxReticle);
             rotateTopOfRings = getBoolean(cfg, "rotateTopOfRings", rotateTopOfRings);
+            syncColorWithFluxReticle = getBoolean(cfg, "syncColorWithFluxReticle", syncColorWithFluxReticle);
             //ring
             systemMarkerRingThickness = (float) getDouble(cfg, "systemMarkerRingThickness", systemMarkerRingThickness);
             systemMarkerRingRadius = (float) getDouble(cfg, "systemMarkerRingRadius", systemMarkerRingRadius);
@@ -106,7 +108,22 @@ public class STM_SystemMarkerPlugin extends STM_EveryFramePlugin {
         } catch (Exception ignored) {
         }
 
-        showReticle = Global.getSettings().getModManager().isModEnabled("sun_flux_reticle");
+        if(Global.getSettings().getModManager().isModEnabled("sun_flux_reticle")){
+            try{
+                JSONObject cfg = Global.getSettings().getMergedJSONForMod("FLUX_RETICLE_OPTIONS.ini", "sun_flux_reticle");
+                showReticle = getBooleanCfg(cfg, "showReticle", showReticle);
+                if(syncColorWithFluxReticle && showReticle){
+                    if (getBooleanCfg(cfg, "overrideDefaultUiColors", false)){
+                        systemMarkerRingColorNormal = getColorCfg(cfg, "reticleColor", systemMarkerRingColorNormal);
+                        systemMarkerAmmoColorNormal = getColorCfg(cfg, "reticleColor", systemMarkerAmmoColorNormal);
+                    }else {
+                        systemMarkerRingColorNormal = Misc.getPositiveHighlightColor();
+                        systemMarkerAmmoColorNormal = Misc.getPositiveHighlightColor();
+                    }
+                }
+            }catch (Exception ignored){
+            }
+        }else showReticle = false;
     }
 
     @Override

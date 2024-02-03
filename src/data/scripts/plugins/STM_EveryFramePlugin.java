@@ -77,6 +77,9 @@ public class STM_EveryFramePlugin extends BaseEveryFrameCombatPlugin {
                 }
             }
         }
+        return getBooleanCfg(cfg, id, original);
+    }
+    protected boolean getBooleanCfg(JSONObject cfg, String id, boolean original){
         try {
             return cfg.getBoolean(id);
         } catch (Exception ignored) {
@@ -92,6 +95,9 @@ public class STM_EveryFramePlugin extends BaseEveryFrameCombatPlugin {
                 }
             }
         }
+        return getIntCfg(cfg, id, original);
+    }
+    protected int getIntCfg(JSONObject cfg, String id, int original) {
         try {
             return cfg.getInt(id);
         } catch (Exception ignored) {
@@ -107,6 +113,9 @@ public class STM_EveryFramePlugin extends BaseEveryFrameCombatPlugin {
                 }
             }
         }
+        return getDoubleCfg(cfg, id, original);
+    }
+    protected double getDoubleCfg(JSONObject cfg, String id, double original) {
         try {
             return cfg.getDouble(id);
         } catch (Exception ignored) {
@@ -122,6 +131,9 @@ public class STM_EveryFramePlugin extends BaseEveryFrameCombatPlugin {
                 }
             }
         }
+        return getStringCfg(cfg, id, original);
+    }
+    protected String getStringCfg(JSONObject cfg, String id, String original) {
         try {
             return cfg.getString(id);
         } catch (Exception ignored) {
@@ -137,6 +149,9 @@ public class STM_EveryFramePlugin extends BaseEveryFrameCombatPlugin {
                 }
             }
         }
+        return getColorCfg(cfg, id, original);
+    }
+    protected Color getColorCfg(JSONObject cfg, String id, Color original) {
         try {
             return new Color((float) cfg.getJSONArray(id).getInt(0), (float) cfg.getJSONArray(id).getInt(1), (float) cfg.getJSONArray(id).getInt(2));
         } catch (Exception ignored) {
