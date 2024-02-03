@@ -1,3 +1,7 @@
+2024/02/23 0.1.8
+update to 0.97a
+Ship System Marker (including Shield Marker) - add an option to control synchronizing the color with Flux Reticle or not
+
 2023/11/25 0.1.7-RC3
 Torpedo Marker (including Mine Marker) - added an option to control how many frames between each traversals in code
 
