@@ -3,10 +3,12 @@ fieldID,fieldName,fieldType,defaultValue,secondaryValue,fieldDescription,minValu
 STM_globalHeader,Global Header,Header,Global,,,,,
 enableLunaSetting,Enable LunaLib setting,Boolean,false,,"Will use the setting in SYSTEM_MARKER_OPTIONS.ini if false.",,,
 showWhenInterfaceIsHidden,Show markers when interface is hidden,Boolean,false,,,,,
-rotateWithFluxReticle,Rotate with Flux Reticle,Boolean,true,,"Only active when you using 'Flux Reticle'。
+rotateWithFluxReticle,Rotate with Flux Reticle,Boolean,true,,"Only active when you using 'Flux Reticle'.
 Let markers around cursor rotate with the 'Flux Reticle' replaced one.",,,
 rotateTopOfRings,Rotatethe top of rings,Boolean,true,,"Only active when you using 'Flux Reticle', and 'Rotate with Flux Reticle,Boolean' is true.
 Let the top of the markers' ring rotate with the cursor.",,,
+syncColorWithFluxReticle,Sync Color With Flux Reticle,Boolean,true,,"Only active when you using 'Flux Reticle'.
+开启后舰船系统标识与护盾标识的颜色将会同步幅能光标的颜色。Let Ship System Marker and Shield Marker's color synchronize with 'Flux Reticle'",,,
 ,,,,,,,,
 STM_shipSystemMarkerHeader,Ship System Marker Header,Header,Ship System Marker,,,,,
 enableShipSystemMarker,Enable Ship System Marker,Boolean,true,,"Ship System Marker shows the remaining of your ship's system, and cooling down with a ring.
