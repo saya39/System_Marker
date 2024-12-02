@@ -16,14 +16,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class STM_WeaponRepairMarkerPlugin extends STM_EveryFramePlugin {
-    private static float weaponRepairMarkerSizeSmall = 28f;
-    private static float weaponRepairMarkerSizeMedium = 34f;
-    private static float weaponRepairMarkerSizeLarge = 48f;
-    private static float weaponRepairMarkerAlpha = 0.6f;
+    private float weaponRepairMarkerSizeSmall = 28f;
+    private float weaponRepairMarkerSizeMedium = 34f;
+    private float weaponRepairMarkerSizeLarge = 48f;
+    private float weaponRepairMarkerAlpha = 0.6f;
+    private boolean weaponRepairMarkerEnableEnemy = false;
 
-    private static Color weaponRepairMarkerColorFriendly = Misc.getPositiveHighlightColor();
-    private static Color weaponRepairMarkerColorAlly = Misc.getHighlightColor();
-    private static Color weaponRepairMarkerColorEnemy = Misc.getNegativeHighlightColor();
+    private Color weaponRepairMarkerColorFriendly = Misc.getPositiveHighlightColor();
+    private Color weaponRepairMarkerColorAlly = Misc.getHighlightColor();
+    private Color weaponRepairMarkerColorEnemy = Misc.getNegativeHighlightColor();
 
     @Override
     public void init(CombatEngineAPI engine) {
@@ -36,6 +37,7 @@ public class STM_WeaponRepairMarkerPlugin extends STM_EveryFramePlugin {
             weaponRepairMarkerSizeMedium = (float) getDouble(cfg, "weaponRepairMarkerSizeMedium", weaponRepairMarkerSizeMedium);
             weaponRepairMarkerSizeLarge = (float) getDouble(cfg, "weaponRepairMarkerSizeLarge", weaponRepairMarkerSizeLarge);
             weaponRepairMarkerAlpha = (float) getDouble(cfg, "weaponRepairMarkerAlpha", weaponRepairMarkerAlpha);
+            weaponRepairMarkerEnableEnemy = getBoolean(cfg, "weaponRepairMarkerEnableEnemy", weaponRepairMarkerEnableEnemy);
             if (overrideColors(cfg, "weaponRepairMarkerOverrideColors", false)) {
                 weaponRepairMarkerColorFriendly = getColor(cfg, "weaponRepairMarkerColorFriendly", weaponRepairMarkerColorFriendly);
                 weaponRepairMarkerColorAlly = getColor(cfg, "weaponRepairMarkerColorAlly", weaponRepairMarkerColorAlly);
@@ -59,7 +61,7 @@ public class STM_WeaponRepairMarkerPlugin extends STM_EveryFramePlugin {
         }
         List<WeaponAPI> mapTarget = new ArrayList<>();
         ShipAPI target = ship.getShipTarget();
-        if (target != null && target.isAlive() && (target.getOwner() == ship.getOwner() || ship.isAlly())) { //only friendly
+        if (target != null && target.isAlive() && (target.getOwner() == ship.getOwner() || ship.isAlly() || weaponRepairMarkerEnableEnemy)) {
             for (WeaponAPI weapon : target.getAllWeapons()) {
                 if (weapon == null || weapon.isDecorative()) continue;
                 if (!weapon.isDisabled() || weapon.isPermanentlyDisabled()) continue;

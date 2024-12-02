@@ -1,14 +1,10 @@
 package data.scripts.plugins;
 
 import com.fs.starfarer.api.Global;
-import com.fs.starfarer.api.combat.CombatEngineAPI;
-import com.fs.starfarer.api.combat.MissileAPI;
-import com.fs.starfarer.api.combat.ShipAPI;
-import com.fs.starfarer.api.combat.ViewportAPI;
+import com.fs.starfarer.api.combat.*;
 import com.fs.starfarer.api.input.InputEventAPI;
 import com.fs.starfarer.api.util.Misc;
 import org.json.JSONObject;
-import org.lazywizard.lazylib.CollisionUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
 
@@ -21,35 +17,34 @@ import java.util.Map;
 public class STM_TorpedoMarkerPlugin extends STM_EveryFramePlugin {
     public static final String ID = "STM_TorpedoMarkerPlugin";
 
-    private static int torpedoMarkerPerFrame = 1;
-    private static String torpedoMarkerMode = "bound"; // bound, rangeRough
-    private static float torpedoMarkerSizeMult = 1f;
-    private static float torpedoMarkerThickness = 2f;
-    private static float torpedoMarkerAlpha = 2f;
+    private int torpedoMarkerPerFrame = 1;
+    private String torpedoMarkerMode = "bound"; // bound, rangeRough
+    private float torpedoMarkerSizeMult = 1f;
+    private float torpedoMarkerThickness = 2f;
+    private float torpedoMarkerAlpha = 2f;
 
-    private static boolean torpedoMarkerEnableCountMissile = true;
-    private static float torpedoMarkerMissileWithinAngle = 90f;
+    private boolean torpedoMarkerEnableCountMissile = true;
+    private float torpedoMarkerMissileWithinAngle = 90f;
 
-    private static Color torpedoMarkerColorAlarm = Misc.getHighlightColor();
-    private static Color torpedoMarkerColorDanger = Misc.getNegativeHighlightColor();
+    private Color torpedoMarkerColorAlarm = Misc.getHighlightColor();
+    private Color torpedoMarkerColorDanger = Misc.getNegativeHighlightColor();
 
-    private static float mineMarkerSizeMult = 1f;
-    private static float mineMarkerAlpha = 1f;
-    private static float mineMarkerBlinkRangeMult = 1f;
+    private float mineMarkerSizeMult = 1f;
+    private float mineMarkerAlpha = 1f;
+    private float mineMarkerBlinkRangeMult = 1f;
 
-    private static Color mineMarkerColor = Misc.getNegativeHighlightColor();
+    private Color mineMarkerColor = Misc.getNegativeHighlightColor();
 
-    private static boolean enableAlarm = true;
+    private boolean enableAlarm = true;
 
-    private static float alarmVolumeMult = 1f;
-    private static float alarmDamageLv1 = 2000f;
-    private static float alarmDamageLv2 = 4000f;
-    private static float alarmDamageLv3 = 8000f;
+    private float alarmVolumeMult = 1f;
+    private float alarmDamageLv1 = 2000f;
+    private float alarmDamageLv2 = 4000f;
+    private float alarmDamageLv3 = 8000f;
 
     @Override
     public void init(CombatEngineAPI engine) {
         this.engine = engine;
-        engine.getCustomData().put(ID, new LocalData());
 
         try {
             JSONObject cfg = Global.getSettings().getMergedJSONForMod("SYSTEM_MARKER_OPTIONS.ini", "System_Marker");
@@ -81,6 +76,8 @@ public class STM_TorpedoMarkerPlugin extends STM_EveryFramePlugin {
             alarmDamageLv3 = (float) getDouble(cfg, "alarmDamageLv3", alarmDamageLv3);
         } catch (Exception ignored) {
         }
+
+        engine.getCustomData().put(ID, new LocalData());
     }
 
     @Override
@@ -163,10 +160,10 @@ public class STM_TorpedoMarkerPlugin extends STM_EveryFramePlugin {
 
     private boolean getCollides(MissileAPI missile, ShipAPI ship){
         Vector2f from = missile.getLocation();
-        if (CollisionUtils.getCollides(from, sumVector(from, missile.getVelocity(), 5f), ship.getLocation(), ship.getCollisionRadius())) return true;
+        if (getCollides(from, sumVector(from, missile.getVelocity(), 5f), ship.getLocation(), ship.getCollisionRadius())) return true;
         else if (!ship.isShipWithModules()) return false;
         for (ShipAPI module : ship.getChildModulesCopy()) {
-            if (CollisionUtils.getCollides(from, sumVector(from, missile.getVelocity(), 5f), module.getLocation(), module.getCollisionRadius())) return true;
+            if (getCollides(from, sumVector(from, missile.getVelocity(), 5f), module.getLocation(), module.getCollisionRadius())) return true;
         }
         return false;
     }
@@ -176,11 +173,11 @@ public class STM_TorpedoMarkerPlugin extends STM_EveryFramePlugin {
         Vector2f from = missile.getLocation();
         Vector2f velocity = missile.getVelocity();
 
-        Vector2f point = CollisionUtils.getCollisionPoint(from, sumVector(from, velocity, 5f), ship);
+        Vector2f point = getCollisionPoint(from, sumVector(from, velocity, 5f), ship);
         float sec = point == null ? 10000f : Vector2f.sub(point, from, null).length() / velocity.length();
         if (!ship.isShipWithModules()) return sec;
         for (ShipAPI module : ship.getChildModulesCopy()) {
-            point = CollisionUtils.getCollisionPoint(from, sumVector(from, velocity, 5f), module);
+            point = getCollisionPoint(from, sumVector(from, velocity, 5f), module);
             sec = point == null ? sec : Math.min(sec, Vector2f.sub(point, from, null).length() / velocity.length());
         }
         return sec;

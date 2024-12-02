@@ -14,53 +14,59 @@ import java.util.List;
 
 public class STM_SystemMarkerPlugin extends STM_EveryFramePlugin {
 
-    private static float systemMarkerRingThickness = 2f;
-    private static float systemMarkerRingRadius = 8f;
-    private static float systemMarkerRingShiftX = 32f;
-    private static float systemMarkerRingShiftY = 0f;
-    private static float systemMarkerRingAlphaMain = 0.8f;
-    private static float systemMarkerRingAlphaBack = 0.1f;
-    private static float systemMarkerAmmoFontSize = 12f;
-    private static float systemMarkerAmmoShiftX = 32f;
-    private static float systemMarkerAmmoShiftY = 0f;
+    private float systemMarkerRingThickness = 2f;
+    private float systemMarkerRingRadius = 8f;
+    private float systemMarkerRingShiftX = 32f;
+    private float systemMarkerRingShiftY = 0f;
+    private float systemMarkerRingAlphaMain = 0.8f;
+    private float systemMarkerRingAlphaBack = 0.1f;
+    private float systemMarkerAmmoFontSize = 12f;
+    private float systemMarkerAmmoShiftX = 32f;
+    private float systemMarkerAmmoShiftY = 0f;
 
-    private static float specialMarkerRingThickness = 2f;
-    private static float specialMarkerRingRadius = 8f;
-    private static float specialMarkerRingShiftX = 32f;
-    private static float specialMarkerRingShiftY = -32f;
-    private static float specialMarkerRingAlphaMain = 0.8f;
-    private static float specialMarkerRingAlphaBack = 0.1f;
-    private static float specialMarkerAmmoFontSize = 12f;
-    private static float specialMarkerAmmoShiftX = 32f;
-    private static float specialMarkerAmmoShiftY = -32f;
+    private float specialMarkerRingThickness = 2f;
+    private float specialMarkerRingRadius = 8f;
+    private float specialMarkerRingShiftX = 32f;
+    private float specialMarkerRingShiftY = -32f;
+    private float specialMarkerRingAlphaMain = 0.8f;
+    private float specialMarkerRingAlphaBack = 0.1f;
+    private float specialMarkerAmmoFontSize = 12f;
+    private float specialMarkerAmmoShiftX = 32f;
+    private float specialMarkerAmmoShiftY = -32f;
 
-    private static boolean rotateWithFluxReticle = true;
-    private static boolean rotateTopOfRings = true;
-    private static boolean syncColorWithFluxReticle = true;
+    private boolean rotateWithFluxReticle = true;
+    private boolean rotateTopOfRings = true;
+    private boolean syncColorWithFluxReticle = true;
 
-    private static boolean showReticle = true;
+    private boolean showReticle = true;
 
-    private static Color systemMarkerRingColorNormal = new Color(50, 255, 255);
-    private static Color systemMarkerRingColorUsing = Misc.getHighlightColor();
-    private static Color systemMarkerRingColorOutOfAmmo = Misc.getNegativeHighlightColor();
-    private static Color systemMarkerAmmoColorNormal = new Color(50, 255, 255);
-    private static Color systemMarkerAmmoColorUsing = Misc.getHighlightColor();
-    private static Color systemMarkerAmmoColorOutOfAmmo = Misc.getNegativeHighlightColor();
+    private Color systemMarkerRingColorNormal = new Color(50, 255, 255);
+    private Color systemMarkerRingColorUsing = Misc.getHighlightColor();
+    private Color systemMarkerRingColorOutOfAmmo = Misc.getNegativeHighlightColor();
+    private Color systemMarkerAmmoColorNormal = new Color(50, 255, 255);
+    private Color systemMarkerAmmoColorUsing = Misc.getHighlightColor();
+    private Color systemMarkerAmmoColorOutOfAmmo = Misc.getNegativeHighlightColor();
 
-    private static Color specialMarkerRingColorNormal = new Color(255, 50, 255);
-    private static Color specialMarkerRingColorUsing = Misc.getHighlightColor();
-    private static Color specialMarkerRingColorOutOfAmmo = Misc.getNegativeHighlightColor();
-    private static Color specialMarkerAmmoColorNormal = new Color(255, 50, 255);
-    private static Color specialMarkerAmmoColorUsing = Misc.getHighlightColor();
-    private static Color specialMarkerAmmoColorOutOfAmmo = Misc.getNegativeHighlightColor();
+    private Color specialMarkerRingColorNormal = new Color(255, 50, 255);
+    private Color specialMarkerRingColorUsing = Misc.getHighlightColor();
+    private Color specialMarkerRingColorOutOfAmmo = Misc.getNegativeHighlightColor();
+    private Color specialMarkerAmmoColorNormal = new Color(255, 50, 255);
+    private Color specialMarkerAmmoColorUsing = Misc.getHighlightColor();
+    private Color specialMarkerAmmoColorOutOfAmmo = Misc.getNegativeHighlightColor();
 
-    private LazyFont.DrawableString drawableSystem;
-    private LazyFont.DrawableString drawableSpecial;
+    private Color shieldMarkerRingColorOn = new Color(50, 255, 255);
+    private Color shieldMarkerRingColorOff = Misc.getGrayColor();
+
+    private Color phaseMarkerRingColorNormal = new Color(255, 50, 255);
+    private Color phaseMarkerRingColorUsing = Misc.getHighlightColor();
+    private Color phaseMarkerRingColorOutOfAmmo = Misc.getNegativeHighlightColor();
+
+    private LazyFont.DrawableString drawableSystem = null;
+    private LazyFont.DrawableString drawableSpecial = null;
 
     @Override
     public void init(CombatEngineAPI engine) {
         this.engine = engine;
-        loadFont(engine);
 
         try {
             JSONObject cfg = Global.getSettings().getMergedJSONForMod("SYSTEM_MARKER_OPTIONS.ini", "System_Marker");
@@ -105,6 +111,15 @@ public class STM_SystemMarkerPlugin extends STM_EveryFramePlugin {
                 specialMarkerAmmoColorUsing = getColor(cfg, "specialMarkerAmmoColorUsing", specialMarkerAmmoColorUsing);
                 specialMarkerAmmoColorOutOfAmmo = getColor(cfg, "specialMarkerAmmoColorOutOfAmmo", specialMarkerAmmoColorOutOfAmmo);
             }
+            if (overrideColors(cfg, "shieldMarkerOverrideColors", false)) {
+                shieldMarkerRingColorOn = getColor(cfg, "shieldMarkerRingColorOn", shieldMarkerRingColorOn);
+                shieldMarkerRingColorOff = getColor(cfg, "shieldMarkerRingColorOff", shieldMarkerRingColorOff);
+            }
+            if (overrideColors(cfg, "phaseMarkerOverrideColors", false)) {
+                phaseMarkerRingColorNormal = getColor(cfg, "phaseMarkerRingColorNormal", phaseMarkerRingColorNormal);
+                phaseMarkerRingColorUsing = getColor(cfg, "phaseMarkerRingColorUsing", phaseMarkerRingColorUsing);
+                phaseMarkerRingColorOutOfAmmo = getColor(cfg, "phaseMarkerRingColorOutOfAmmo", phaseMarkerRingColorOutOfAmmo);
+            }
         } catch (Exception ignored) {
         }
 
@@ -112,18 +127,23 @@ public class STM_SystemMarkerPlugin extends STM_EveryFramePlugin {
             try{
                 JSONObject cfg = Global.getSettings().getMergedJSONForMod("FLUX_RETICLE_OPTIONS.ini", "sun_flux_reticle");
                 showReticle = getBooleanCfg(cfg, "showReticle", showReticle);
+
                 if(syncColorWithFluxReticle && showReticle){
                     if (getBooleanCfg(cfg, "overrideDefaultUiColors", false)){
                         systemMarkerRingColorNormal = getColorCfg(cfg, "reticleColor", systemMarkerRingColorNormal);
                         systemMarkerAmmoColorNormal = getColorCfg(cfg, "reticleColor", systemMarkerAmmoColorNormal);
+                        shieldMarkerRingColorOn = getColorCfg(cfg, "reticleColor", shieldMarkerRingColorOn);
                     }else {
                         systemMarkerRingColorNormal = Misc.getPositiveHighlightColor();
                         systemMarkerAmmoColorNormal = Misc.getPositiveHighlightColor();
+                        shieldMarkerRingColorOn = Misc.getPositiveHighlightColor();
                     }
                 }
             }catch (Exception ignored){
             }
         }else showReticle = false;
+
+        loadFont(engine);
     }
 
     @Override
@@ -145,15 +165,20 @@ public class STM_SystemMarkerPlugin extends STM_EveryFramePlugin {
 
         glIn(viewport);
         if (enableShipSystemMarker && ship.getSystem() != null) {
-            drawArc(systemColor(ship.getSystem(), systemMarkerRingColorNormal, systemMarkerRingColorUsing, systemMarkerRingColorOutOfAmmo), systemMarkerRingAlphaMain, systemAngle(ship.getSystem()), mouse2f, systemMarkerRingRadius, aimAngle, aimAngleTop, systemMarkerRingShiftX, systemMarkerRingShiftY, specialMarkerRingThickness);
-            drawArc(systemColor(ship.getSystem(), systemMarkerRingColorNormal, systemMarkerRingColorUsing, systemMarkerRingColorOutOfAmmo), systemMarkerRingAlphaBack, 360f, mouse2f, systemMarkerRingRadius, aimAngle, aimAngleTop, systemMarkerRingShiftX, systemMarkerRingShiftY, specialMarkerRingThickness);
+            drawArc(systemColor(ship.getSystem(), systemMarkerRingColorNormal, systemMarkerRingColorUsing, systemMarkerRingColorOutOfAmmo), systemMarkerRingAlphaMain, systemAngle(ship.getSystem()), mouse2f, systemMarkerRingRadius, aimAngle, aimAngleTop, systemMarkerRingShiftX, systemMarkerRingShiftY, systemMarkerRingThickness);
+            drawArc(systemColor(ship.getSystem(), systemMarkerRingColorNormal, systemMarkerRingColorUsing, systemMarkerRingColorOutOfAmmo), systemMarkerRingAlphaBack, 360f, mouse2f, systemMarkerRingRadius, aimAngle, aimAngleTop, systemMarkerRingShiftX, systemMarkerRingShiftY, systemMarkerRingThickness);
         }
         if (enableSpecialSystemMarker && ship.getPhaseCloak() != null) {
-            drawArc(systemColor(ship.getPhaseCloak(), specialMarkerRingColorNormal, specialMarkerRingColorUsing, specialMarkerRingColorOutOfAmmo), specialMarkerRingAlphaMain, systemAngle(ship.getPhaseCloak()), mouse2f, specialMarkerRingRadius, aimAngle, aimAngleTop, specialMarkerRingShiftX, specialMarkerRingShiftY, specialMarkerRingThickness);
-            drawArc(systemColor(ship.getPhaseCloak(), specialMarkerRingColorNormal, specialMarkerRingColorUsing, specialMarkerRingColorOutOfAmmo), specialMarkerRingAlphaBack, 360f, mouse2f, specialMarkerRingRadius, aimAngle, aimAngleTop, specialMarkerRingShiftX, specialMarkerRingShiftY, specialMarkerRingThickness);
-        } else if (enableShipSystemMarker && ship.getShield() != null) {
-            drawArc(shieldMarkerColor(ship.getShield(), systemMarkerRingColorNormal), specialMarkerRingAlphaMain, ship.getShield().getActiveArc(), mouse2f, specialMarkerRingRadius, aimAngle, ship.getShield().getFacing() - ship.getShield().getActiveArc() / 2f, specialMarkerRingShiftX, specialMarkerRingShiftY, specialMarkerRingThickness);
-            drawArc(shieldMarkerColor(ship.getShield(), systemMarkerRingColorNormal), specialMarkerRingAlphaBack, ship.getShield().getArc(), mouse2f, specialMarkerRingRadius, aimAngle, ship.getShield().getFacing() - ship.getShield().getArc() / 2f, specialMarkerRingShiftX, specialMarkerRingShiftY, specialMarkerRingThickness);
+            if(ship.getPhaseCloak().getId().equals("phasecloak")){
+                drawArc(systemColor(ship.getPhaseCloak(), phaseMarkerRingColorNormal, phaseMarkerRingColorUsing, phaseMarkerRingColorOutOfAmmo), specialMarkerRingAlphaMain, systemAngle(ship.getPhaseCloak()), mouse2f, specialMarkerRingRadius, aimAngle, aimAngleTop, specialMarkerRingShiftX, specialMarkerRingShiftY, specialMarkerRingThickness);
+                drawArc(systemColor(ship.getPhaseCloak(), phaseMarkerRingColorNormal, phaseMarkerRingColorUsing, phaseMarkerRingColorOutOfAmmo), specialMarkerRingAlphaBack, 360f, mouse2f, specialMarkerRingRadius, aimAngle, aimAngleTop, specialMarkerRingShiftX, specialMarkerRingShiftY, specialMarkerRingThickness);
+            }else {
+                drawArc(systemColor(ship.getPhaseCloak(), specialMarkerRingColorNormal, specialMarkerRingColorUsing, specialMarkerRingColorOutOfAmmo), specialMarkerRingAlphaMain, systemAngle(ship.getPhaseCloak()), mouse2f, specialMarkerRingRadius, aimAngle, aimAngleTop, specialMarkerRingShiftX, specialMarkerRingShiftY, specialMarkerRingThickness);
+                drawArc(systemColor(ship.getPhaseCloak(), specialMarkerRingColorNormal, specialMarkerRingColorUsing, specialMarkerRingColorOutOfAmmo), specialMarkerRingAlphaBack, 360f, mouse2f, specialMarkerRingRadius, aimAngle, aimAngleTop, specialMarkerRingShiftX, specialMarkerRingShiftY, specialMarkerRingThickness);
+            }
+        }else if (enableSpecialSystemMarker && ship.getShield() != null) {
+            drawArc(shieldMarkerColor(ship.getShield()), specialMarkerRingAlphaMain, ship.getShield().getActiveArc(), mouse2f, specialMarkerRingRadius, aimAngle, ship.getShield().getFacing() - ship.getShield().getActiveArc() / 2f, specialMarkerRingShiftX, specialMarkerRingShiftY, specialMarkerRingThickness);
+            drawArc(shieldMarkerColor(ship.getShield()), specialMarkerRingAlphaBack, ship.getShield().getArc(), mouse2f, specialMarkerRingRadius, aimAngle, ship.getShield().getFacing() - ship.getShield().getArc() / 2f, specialMarkerRingShiftX, specialMarkerRingShiftY, specialMarkerRingThickness);
         }
         glOut();
     }
@@ -177,9 +202,9 @@ public class STM_SystemMarkerPlugin extends STM_EveryFramePlugin {
         return 360f;
     }
 
-    private Color shieldMarkerColor(ShieldAPI shield, Color color) {
-        if (shield == null || shield.isOn()) return color;
-        return Misc.getGrayColor();
+    private Color shieldMarkerColor(ShieldAPI shield) {
+        if (shield == null || shield.isOn()) return shieldMarkerRingColorOn;
+        return shieldMarkerRingColorOff;
     }
 
     @Override
@@ -211,7 +236,8 @@ public class STM_SystemMarkerPlugin extends STM_EveryFramePlugin {
         else if (system.isOutOfAmmo()) systemColor = outOfAmmo;
         else if (system.isCoolingDown()) systemColor = using;
 
-        drawFont(engine, drawable, "" + system.getAmmo(), systemColor, aimAngle, shiftX, shiftY, fontSize);
+        Vector2f loc = new Vector2f(Global.getSettings().getMouseX() + rotate(new Vector2f(shiftX, shiftY), aimAngle - 90f).x, Global.getSettings().getMouseY() + rotate(new Vector2f(shiftX, shiftY), aimAngle - 90f).y);
+        drawFont(engine, drawable, "" + system.getAmmo(), systemColor, 90f, loc, fontSize, false);
     }
 
     private void drawArc(Color color, float alpha, float arc, Vector2f loc, float radius, float aimAngle, float aimAngleTop, float x, float y, float thickness) {
@@ -222,29 +248,6 @@ public class STM_SystemMarkerPlugin extends STM_EveryFramePlugin {
             GL11.glVertex2f(loc.x + getPoint(rotate(new Vector2f(x, y), aimAngle - 90f), radius, aimAngleTop + i).x * engine.getViewport().getViewMult(), loc.y + getPoint(rotate(new Vector2f(x, y), aimAngle - 90f), radius, aimAngleTop + i).y * engine.getViewport().getViewMult());
         }
         GL11.glEnd();
-    }
-
-    private void drawFont(CombatEngineAPI engine, LazyFont.DrawableString drawable, String text, Color color, float aimAngle, float x, float y, float size) {
-        LazyFont font = (LazyFont) engine.getCustomData().get(STM_EveryFramePlugin.ID + "_font");
-        if (font == null) return;
-        color = new Color(color.getRed(), color.getGreen(), color.getBlue());
-
-        if (drawable == null) {
-            drawable = font.createText(text, color, size);
-        } else {
-            if (!drawable.getText().equals(text)) {
-                drawable.setText(text);
-            }
-            if (!drawable.getBaseColor().equals(color)) {
-                drawable.setBaseColor(color);
-            }
-            if (drawable.getFontSize() != size) {
-                drawable.setFontSize(size);
-            }
-        }
-
-        drawable.draw(Global.getSettings().getMouseX() + rotate(new Vector2f(x, y), aimAngle - 90f).x - (drawable.getWidth() / 2f), Global.getSettings().getMouseY() + rotate(new Vector2f(x, y), aimAngle - 90f).y + (drawable.getHeight() / 2f));
-        drawable.dispose();
     }
 
 }

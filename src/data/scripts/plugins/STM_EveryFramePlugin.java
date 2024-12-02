@@ -3,9 +3,11 @@ package data.scripts.plugins;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.BaseEveryFrameCombatPlugin;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
+import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.ViewportAPI;
 import lunalib.lunaSettings.LunaSettings;
 import org.json.JSONObject;
+import org.lazywizard.lazylib.CollisionUtils;
 import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.VectorUtils;
 import org.lazywizard.lazylib.ui.FontException;
@@ -27,13 +29,15 @@ public class STM_EveryFramePlugin extends BaseEveryFrameCombatPlugin {
     protected static boolean enableMineMarker = true;
     protected static boolean enableLunaColorSetting = false;
     protected CombatEngineAPI engine;
+    
+    protected static String MOD_ID = "System_Marker";
 
     @Override
     public void init(CombatEngineAPI engine) {
         this.engine = engine;
 
         try {
-            JSONObject cfg = Global.getSettings().getMergedJSONForMod("SYSTEM_MARKER_OPTIONS.ini", "System_Marker");
+            JSONObject cfg = Global.getSettings().getMergedJSONForMod("SYSTEM_MARKER_OPTIONS.ini", MOD_ID);
 
             showWhenInterfaceIsHidden = getBoolean(cfg, "showWhenInterfaceIsHidden", showWhenInterfaceIsHidden);
 
@@ -69,13 +73,19 @@ public class STM_EveryFramePlugin extends BaseEveryFrameCombatPlugin {
         }
     }
 
+    protected boolean getBooleanLuna(String id, boolean original){
+        if(hasBooleanLuna(id)){
+            return Boolean.TRUE.equals(LunaSettings.getBoolean(MOD_ID, id));
+        }else {
+            return original;
+        }
+    }
+    protected boolean hasBooleanLuna(String id){
+        return Global.getSettings().getModManager().isModEnabled("lunalib") && LunaSettings.getBoolean(MOD_ID, id) != null;
+    }
     protected boolean getBoolean(JSONObject cfg, String id, boolean original) {
-        if (Global.getSettings().getModManager().isModEnabled("lunalib")) {
-            if (Boolean.TRUE.equals(LunaSettings.getBoolean("System_Marker", "enableLunaSetting"))) {
-                if (LunaSettings.getBoolean("System_Marker", id) != null) {
-                    return LunaSettings.getBoolean("System_Marker", id);
-                }
-            }
+        if(getBooleanLuna("enableLunaSetting", false) && hasBooleanLuna(id)){
+            return Boolean.TRUE.equals(LunaSettings.getBoolean(MOD_ID, id));
         }
         return getBooleanCfg(cfg, id, original);
     }
@@ -87,13 +97,12 @@ public class STM_EveryFramePlugin extends BaseEveryFrameCombatPlugin {
         }
     }
 
+    protected boolean hasIntLuna(String id){
+        return Global.getSettings().getModManager().isModEnabled("lunalib") && LunaSettings.getInt(MOD_ID, id) != null;
+    }
     protected int getInt(JSONObject cfg, String id, int original) {
-        if (Global.getSettings().getModManager().isModEnabled("lunalib")) {
-            if (Boolean.TRUE.equals(LunaSettings.getBoolean("System_Marker", "enableLunaSetting"))) {
-                if (LunaSettings.getInt("System_Marker", id) != null) {
-                    return LunaSettings.getInt("System_Marker", id);
-                }
-            }
+        if(getBooleanLuna("enableLunaSetting", false) && hasIntLuna(id)){
+            return LunaSettings.getInt(MOD_ID, id);
         }
         return getIntCfg(cfg, id, original);
     }
@@ -105,13 +114,12 @@ public class STM_EveryFramePlugin extends BaseEveryFrameCombatPlugin {
         }
     }
 
+    protected boolean hasDoubleLuna(String id){
+        return Global.getSettings().getModManager().isModEnabled("lunalib") && LunaSettings.getDouble(MOD_ID, id) != null;
+    }
     protected double getDouble(JSONObject cfg, String id, double original) {
-        if (Global.getSettings().getModManager().isModEnabled("lunalib")) {
-            if (Boolean.TRUE.equals(LunaSettings.getBoolean("System_Marker", "enableLunaSetting"))) {
-                if (LunaSettings.getDouble("System_Marker", id) != null) {
-                    return LunaSettings.getDouble("System_Marker", id);
-                }
-            }
+        if(getBooleanLuna("enableLunaSetting", false) && hasDoubleLuna(id)){
+            return LunaSettings.getDouble(MOD_ID, id);
         }
         return getDoubleCfg(cfg, id, original);
     }
@@ -123,13 +131,12 @@ public class STM_EveryFramePlugin extends BaseEveryFrameCombatPlugin {
         }
     }
 
+    protected boolean hasStringLuna(String id){
+        return Global.getSettings().getModManager().isModEnabled("lunalib") && LunaSettings.getString(MOD_ID, id) != null;
+    }
     protected String getString(JSONObject cfg, String id, String original) {
-        if (Global.getSettings().getModManager().isModEnabled("lunalib")) {
-            if (Boolean.TRUE.equals(LunaSettings.getBoolean("System_Marker", "enableLunaSetting"))) {
-                if (LunaSettings.getString("System_Marker", id) != null) {
-                    return LunaSettings.getString("System_Marker", id);
-                }
-            }
+        if(getBooleanLuna("enableLunaSetting", false) && hasStringLuna(id)){
+            return LunaSettings.getString(MOD_ID, id);
         }
         return getStringCfg(cfg, id, original);
     }
@@ -141,13 +148,12 @@ public class STM_EveryFramePlugin extends BaseEveryFrameCombatPlugin {
         }
     }
 
+    protected boolean hasColorLuna(String id){
+        return Global.getSettings().getModManager().isModEnabled("lunalib") && LunaSettings.getColor(MOD_ID, id) != null;
+    }
     protected Color getColor(JSONObject cfg, String id, Color original) {
-        if (Global.getSettings().getModManager().isModEnabled("lunalib")) {
-            if (Boolean.TRUE.equals(LunaSettings.getBoolean("System_Marker", "enableLunaSetting")) && Boolean.TRUE.equals(LunaSettings.getBoolean("System_Marker", "enableLunaColorSetting"))) {
-                if (LunaSettings.getColor("System_Marker", id) != null) {
-                    return LunaSettings.getColor("System_Marker", id);
-                }
-            }
+        if(getBooleanLuna("enableLunaSetting", false) && getBooleanLuna("enableLunaColorSetting", false) && hasColorLuna(id)){
+            return LunaSettings.getColor(MOD_ID, id);
         }
         return getColorCfg(cfg, id, original);
     }
@@ -160,18 +166,10 @@ public class STM_EveryFramePlugin extends BaseEveryFrameCombatPlugin {
     }
 
     protected boolean overrideColors(JSONObject cfg, String id, boolean original) {
-        if (Global.getSettings().getModManager().isModEnabled("lunalib")) {
-            if (Boolean.TRUE.equals(LunaSettings.getBoolean("System_Marker", "enableLunaSetting")) && Boolean.TRUE.equals(LunaSettings.getBoolean("System_Marker", "enableLunaColorSetting"))) {
-                if (LunaSettings.getBoolean("System_Marker", "id") != null) {
-                    return LunaSettings.getBoolean("System_Marker", "id");
-                }
-            }
+        if(getBooleanLuna("enableLunaSetting", false) && getBooleanLuna("enableLunaColorSetting", false) && hasBooleanLuna(id)){
+            return getBooleanLuna(id, false);
         }
-        try {
-            return cfg.getBoolean(id);
-        } catch (Exception ignored) {
-            return original;
-        }
+        return getBooleanCfg(cfg, id, original);
     }
 
     protected boolean hide() {
@@ -231,14 +229,6 @@ public class STM_EveryFramePlugin extends BaseEveryFrameCombatPlugin {
         return clamp((value - start) / (end - start));
     }
 
-    protected static Vector2f getPoint(Vector2f center, float radius, float angle) {
-        return MathUtils.getPoint(center, radius, angle);
-    }
-
-    protected static float getAngle(Vector2f from, Vector2f to) {
-        return VectorUtils.getAngle(from, to);
-    }
-
     protected static float clamp(float num) {
         return clamp(0f, num, 1f);
     }
@@ -251,8 +241,47 @@ public class STM_EveryFramePlugin extends BaseEveryFrameCombatPlugin {
         return clampCycle(angle, -180f, 180f);
     }
 
+    /**
+     * set a value in a cycle
+     *
+     * @param value the value to clamp
+     * @param left left limit, can reach
+     * @param right right limit, can not reach
+     * @return the level of value between start and end in 0~1, or 0 when end - start == 0f
+     * exp. value: 1.6f, start: 0f, end: 2f
+     * will return 0.8f
+     */
     protected static double clampCycle(double value, double left, double right) {
-        return ((value - left) % (left + right)) + left;
+        boolean out;
+        do{
+            if(value < left || value >= right){
+                if(value < left){
+                    value += right - left;
+                }
+                if(value >= right){
+                    value -= right - left;
+                }
+                out = false;
+            }else {
+                out = true;
+            }
+        }while (!out);
+        return value;
+    }
+
+    protected static Vector2f getPoint(Vector2f center, float radius, float angle) {
+        return MathUtils.getPoint(center, radius, angle);
+    }
+
+    protected static float getAngle(Vector2f from, Vector2f to) {
+        return VectorUtils.getAngle(from, to);
+    }
+
+    protected static boolean getCollides(Vector2f lineStart, Vector2f lineEnd, Vector2f circleCenter, float circleRadius){
+        return CollisionUtils.getCollides(lineStart, lineEnd, circleCenter, circleRadius);
+    }
+    protected static Vector2f getCollisionPoint(Vector2f lineStart, Vector2f lineEnd, CombatEntityAPI target){
+        return CollisionUtils.getCollisionPoint(lineStart, lineEnd, target);
     }
 
     protected static void loadFont(CombatEngineAPI engine) {
@@ -263,6 +292,31 @@ public class STM_EveryFramePlugin extends BaseEveryFrameCombatPlugin {
         } catch (FontException ex) {
             throw new RuntimeException("Failed to load font");
         }
+    }
+
+    protected static void drawFont(CombatEngineAPI engine, LazyFont.DrawableString drawable, String text, Color color, float angle, Vector2f loc, float size) {
+        drawFont(engine, drawable, text, color, angle, loc, size, true);
+    }
+    protected static void drawFont(CombatEngineAPI engine, LazyFont.DrawableString drawable, String text, Color color, float angle, Vector2f loc, float size, boolean viewChange) {
+        LazyFont font = (LazyFont) engine.getCustomData().get(STM_EveryFramePlugin.ID + "_font");
+        if (font == null) return;
+        color = new Color(color.getRed(), color.getGreen(), color.getBlue());
+
+        if (drawable == null) {
+            drawable = font.createText(text, color, size);
+        } else {
+            if (!drawable.getText().equals(text)) {
+                drawable.setText(text);
+            }
+            if (!drawable.getBaseColor().equals(color)) {
+                drawable.setBaseColor(color);
+            }
+            if (drawable.getFontSize() != size) {
+                drawable.setFontSize(size);
+            }
+        }
+        if(viewChange) loc = new Vector2f(engine.getViewport().convertWorldXtoScreenX(loc.x), engine.getViewport().convertWorldYtoScreenY(loc.y));
+        drawable.drawAtAngle(loc.x + rotate(new Vector2f(-drawable.getWidth() / 2f, drawable.getHeight() / 2f), angle - 90f).x, loc.y + rotate(new Vector2f(-drawable.getWidth() / 2f, drawable.getHeight() / 2f), angle - 90f).y, angle - 90f);
     }
 
     //ogl

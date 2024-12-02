@@ -13,21 +13,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class STM_EngineRepairMarkerPlugin extends STM_EveryFramePlugin {
-    private static float engineRepairMarkerAlpha = 0.4f;
-    private static float engineRepairMarkerSizeMult = 1f;
+    private float engineRepairMarkerAlpha = 0.4f;
+    private float engineRepairMarkerSizeMult = 1f;
+    private boolean engineRepairMarkerEnableEnemy = false;
 
-    private static Color engineRepairMarkerColorFriendly = Misc.getPositiveHighlightColor();
-    private static Color engineRepairMarkerColorAlly = Misc.getHighlightColor();
-    private static Color engineRepairMarkerColorEnemy = Misc.getNegativeHighlightColor();
+    private Color engineRepairMarkerColorFriendly = Misc.getPositiveHighlightColor();
+    private Color engineRepairMarkerColorAlly = Misc.getHighlightColor();
+    private Color engineRepairMarkerColorEnemy = Misc.getNegativeHighlightColor();
 
     @Override
     public void init(CombatEngineAPI engine) {
         this.engine = engine;
+
         try {
             JSONObject cfg = Global.getSettings().getMergedJSONForMod("SYSTEM_MARKER_OPTIONS.ini", "System_Marker");
 
             engineRepairMarkerAlpha = (float) getDouble(cfg, "engineRepairMarkerAlpha", engineRepairMarkerAlpha);
             engineRepairMarkerSizeMult = (float) getDouble(cfg, "engineRepairMarkerSizeMult", engineRepairMarkerSizeMult);
+            engineRepairMarkerEnableEnemy = getBoolean(cfg, "engineRepairMarkerEnableEnemy", engineRepairMarkerEnableEnemy);
             if (overrideColors(cfg, "engineRepairMarkerOverrideColors", false)) {
                 engineRepairMarkerColorFriendly = getColor(cfg, "engineRepairMarkerColorFriendly", engineRepairMarkerColorFriendly);
                 engineRepairMarkerColorAlly = getColor(cfg, "engineRepairMarkerColorAlly", engineRepairMarkerColorAlly);
@@ -49,7 +52,7 @@ public class STM_EngineRepairMarkerPlugin extends STM_EveryFramePlugin {
         }
         List<ShipEngineControllerAPI.ShipEngineAPI> mapTarget = new ArrayList<>();
         ShipAPI target = ship.getShipTarget();
-        if (target != null && target.isAlive() && (target.getOwner() == ship.getOwner() || ship.isAlly())) { //only friendly
+        if (target != null && target.isAlive() && (target.getOwner() == ship.getOwner() || ship.isAlly() || engineRepairMarkerEnableEnemy)) {
             for (ShipEngineControllerAPI.ShipEngineAPI shipEngine : target.getEngineController().getShipEngines()) {
                 if (shipEngine.isDisabled() && !shipEngine.isPermanentlyDisabled()) mapTarget.add(shipEngine);
             }
