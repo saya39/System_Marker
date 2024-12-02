@@ -8,7 +8,7 @@ Let markers around cursor rotate with the 'Flux Reticle' replaced one.",,,
 rotateTopOfRings,Rotatethe top of rings,Boolean,true,,"Only active when you using 'Flux Reticle', and 'Rotate with Flux Reticle,Boolean' is true.
 Let the top of the markers' ring rotate with the cursor.",,,
 syncColorWithFluxReticle,Sync Color With Flux Reticle,Boolean,true,,"Only active when you using 'Flux Reticle'.
-开启后舰船系统标识与护盾标识的颜色将会同步幅能光标的颜色。Let Ship System Marker and Shield Marker's color synchronize with 'Flux Reticle'",,,
+Let Ship System Marker and Shield Marker's color synchronize with 'Flux Reticle'",,,
 ,,,,,,,,
 STM_shipSystemMarkerHeader,Ship System Marker Header,Header,Ship System Marker,,,,,
 enableShipSystemMarker,Enable Ship System Marker,Boolean,true,,"Ship System Marker shows the remaining of your ship's system, and cooling down with a ring.
@@ -52,11 +52,13 @@ weaponRepairMarkerSizeSmall,Weapon repair Marker's size of small slot weapons,Do
 weaponRepairMarkerSizeMedium,Weapon repair Marker's size of medium slot weapons,Double,34,,,0,999,
 weaponRepairMarkerSizeLarge,Weapon repair Marker's size of large slot weapons,Double,48,,,0,999,
 weaponRepairMarkerAlpha,Alpha of Weapon repair Marker,Double,0.6,,,0,1,
+weaponRepairMarkerEnableEnemy,Show Weapon Repair Marker of locked enemy,Boolean,false,,,,,
 ,,,,,,,,
 STM_engineRepairMarkerHeader,Engine Repair Marker Header,Header,Engine Repair Marker,,,,,
 enableEngineRepairMarker,Enable Engine Repair Marker,Boolean,true,,"Shows offlined engines' repair progress of your ship and the ally ship which you locked on.",,,
 engineRepairMarkerSizeMult,Size multiplier of Engine Repair Marker,Double,1,,,0,999,
 engineRepairMarkerAlpha,Alpha of Engine repair Marker,Double,0.4,,,0,1,
+engineRepairMarkerEnableEnemy,Show Engine Repair Marker of locked enemy,Boolean,false,,,,,
 ,,,,,,,,
 STM_torpedoMarkerHeader,Torpedo Marker Header,Header,Torpedo Marker,,,,,
 enableTorpedoMarker,Enable Torpedo Marker,Boolean,true,,"Shows unguided torpedos which may hit your ship in several seconds.",,,
@@ -112,6 +114,13 @@ specialMarkerRingColorOutOfAmmo,Color of Special System Marker's ring out of amm
 specialMarkerAmmoColorNormal,Color of Special System Marker's remaining normal,Color,#f22e6e,,,,,Colors
 specialMarkerAmmoColorUsing,Color of Special System Marker's remaining using,Color,#f22e6e,,,,,Colors
 specialMarkerAmmoColorOutOfAmmo,Color of Special System Marker's remaining out of ammo,Color,#f22e6e,,,,,Colors
+shieldMarkerOverrideColors,Override colors of Shield Marker,Boolean,false,,,,,Colors
+shieldMarkerRingColorOn,Color of Shield Marker when on,Color,#f22e6e,,,,,Colors
+shieldMarkerRingColorOff,Color of Shield Marker when off,Color,#f22e6e,,,,,Colors
+phaseMarkerOverrideColors,Override colors of Special System Marker when is Phase Cloak,Boolean,false,,,,,Colors
+phaseMarkerRingColorNormal,Color of Special System Marker's ring normal when is Phase Cloak,Color,#f22e6e,,,,,Colors
+phaseMarkerRingColorUsing,Color of Special System Marker's ring using when is Phase Cloak,Color,#f22e6e,,,,,Colors
+phaseMarkerRingColorOutOfAmmo,Color of Special System Marker's ring out of ammo when is Phase Cloak,Color,#f22e6e,,,,,Colors
 ,,,,,,,,
 STM_ammoRemainingMarkerColorHeader,Ammo remaining Marker Color Header,Header,Ammo remaining Marker,,,,,Colors
 ammoRemainingMarkerOverrideColors,Override colors of Ammo remaining Marker,Boolean,false,,,,,Colors
@@ -123,11 +132,13 @@ STM_weaponRepairMarkerColorHeader,Weapon repair Marker Color Header,Header,Weapo
 weaponRepairMarkerOverrideColors,Override colors of Weapon repair Marker,Boolean,false,,,,,Colors
 weaponRepairMarkerColorFriendly,Color of Weapon repair Marker friendly,Color,#f22e6e,,,,,Colors
 weaponRepairMarkerColorAlly,Color of Weapon repair Marker ally,Color,#f22e6e,,,,,Colors
+weaponRepairMarkerColorEnemy,Color of Weapon repair Marker enemy,Color,#f22e6e,,,,,Colors
 ,,,,,,,,
 STM_engineRepairMarkerColorHeader,Engine repair Marker Color Header,Header,Engine repair Marker,,,,,Colors
 engineRepairMarkerOverrideColors,Override colors of Engine repair Marker,Boolean,false,,,,,Colors
 engineRepairMarkerColorFriendly,Color of Weapon repair Marker friendly,Color,#f22e6e,,,,,Colors
 engineRepairMarkerColorAlly,Color of Weapon repair Marker ally,Color,#f22e6e,,,,,Colors
+engineRepairMarkerColorEnemy,Color of Weapon repair Marker enemy,Color,#f22e6e,,,,,Colors
 ,,,,,,,,
 STM_torpedoMarkerColorHeader,Torpedo Marker Color Header,Header,Torpedo Marker,,,,,Colors
 torpedoMarkerOverrideColors,Override colors of Torpedo Marker,Boolean,false,,,,,Colors
@@ -137,4 +148,8 @@ torpedoMarkerColorDanger,Color of Torpedo Marker close range,Color,#f22e6e,,,,,C
 STM_mineMarkerColorHeader,Mine Marker Color Header,Header,Mine Marker,,,,,Colors
 mineMarkerOverrideColors,Override colors of Mine Marker,Boolean,false,,,,,Colors
 mineMarkerColor,Color of Mine Marker,Color,#f22e6e,,,,,Colors
+,,,,,,,,
+STM_ColorEndHeader,Color End Header,Header,Remember you've never seen this,,,,,Colors
+STM_ColorEnd1,Remember you've never seen this,Boolean,false,,,,,Colors
+STM_ColorEnd2,Remember you've never seen this,Color,#f22e6e,,,,,Colors
 ,,,,,,,,

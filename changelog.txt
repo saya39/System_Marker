@@ -1,3 +1,18 @@
+2024/12/02 0.1.8-RC1
+Shield Marker - add several options to change the colors of Shield Marker separately
+Special System Marker - add several options to change the colors when special system is Phase Cloak
+Weapon repair Marker - add an option that alow Weapon repair Marker also show enemy's which is being locked
+Engine repair Marker - add an option that alow Weapon Engine Marker also show enemy's which is being locked
+
+BUG Fix
+- Fixed [Thickness of Ship System Marker's ring] option didn't works
+- Fixed [enable Special System Marker] option didn't works on Shield Marker
+- Fixed [Displaying Time of Ammo Remaining Marker] option didn't works
+- Fixed [Torpedo Marker missile within angle] option didn't works well
+- Fixed several color options didn't works well until restart the whole game
+- Fixed several color options were invisible
+- Minor string fix
+
 2024/02/03 0.1.8
 update to 0.97a
 Ship System Marker (including Shield Marker) - add an option to control synchronizing the color with Flux Reticle or not
