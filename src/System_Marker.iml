@@ -7,8 +7,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="0.97a Vanilla" level="application" />
     <orderEntry type="library" name="0.96a LazyLib" level="application" />
     <orderEntry type="library" name="0.96a LunaLib" level="application" />
-    <orderEntry type="library" name="0.97a Vanilla" level="application" />
+    <orderEntry type="library" name="0.96a ConsoleCommands" level="application" />
   </component>
 </module>

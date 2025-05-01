@@ -7,8 +7,8 @@ rotateWithFluxReticle,Rotate with Flux Reticle,Boolean,true,,"Only active when y
 Let markers around cursor rotate with the 'Flux Reticle' replaced one.",,,
 rotateTopOfRings,Rotatethe top of rings,Boolean,true,,"Only active when you using 'Flux Reticle', and 'Rotate with Flux Reticle,Boolean' is true.
 Let the top of the markers' ring rotate with the cursor.",,,
-syncColorWithFluxReticle,Sync Color With Flux Reticle,Boolean,true,,"Only active when you using 'Flux Reticle'.
-Let Ship System Marker and Shield Marker's color synchronize with 'Flux Reticle'",,,
+# syncColorWithFluxReticle,Sync Color With Flux Reticle,Boolean,true,,"Only active when you using 'Flux Reticle'.
+# Let Ship System Marker and Shield Marker's color synchronize with 'Flux Reticle'",,,
 ,,,,,,,,
 STM_shipSystemMarkerHeader,Ship System Marker Header,Header,Ship System Marker,,,,,
 enableShipSystemMarker,Enable Ship System Marker,Boolean,true,,"Ship System Marker shows the remaining of your ship's system, and cooling down with a ring.
@@ -153,3 +153,5 @@ STM_ColorEndHeader,Color End Header,Header,Remember you've never seen this,,,,,C
 STM_ColorEnd1,Remember you've never seen this,Boolean,false,,,,,Colors
 STM_ColorEnd2,Remember you've never seen this,Color,#f22e6e,,,,,Colors
 ,,,,,,,,
+STM_distanceMarkerHeader,Distance Marker Header,Header,Distance Marker,,,,,实验性
+enableDistanceMarker,Enable Distance Marker,Boolean,false,,"Shows distance from cursor to ship or spicifical weapon.",,,实验性

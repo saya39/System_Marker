@@ -1,5 +1,5 @@
 {
     "plugins":{
-		"STM_EveryFramePlugin":"data.scripts.plugins.STM_EveryFramePlugin",
-    },
+      "STM_EveryFramePlugin":"System_Marker.plugins.STM_EveryFramePlugin"
+    }
 }

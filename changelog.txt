@@ -1,8 +1,14 @@
+2025/04/27 0.1.9
+update to 0.98a
+Global - removed [Sync Color With Flux Reticle] option
+Torpedo Alarm - added an option to change the alarm's sound effect
+[Experimental] Distance Marker - a new marker that shows distance from cursor to ship or spicifical weapon (not the final performance)
+
 2024/12/02 0.1.8-RC1
-Shield Marker - add several options to change the colors of Shield Marker separately
-Special System Marker - add several options to change the colors when special system is Phase Cloak
-Weapon repair Marker - add an option that alow Weapon repair Marker also show enemy's which is being locked
-Engine repair Marker - add an option that alow Weapon Engine Marker also show enemy's which is being locked
+Shield Marker - added several options to change the colors of Shield Marker separately
+Special System Marker - added several options to change the colors when special system is Phase Cloak
+Weapon repair Marker - added an option that alow Weapon repair Marker also show enemy's which is being locked
+Engine repair Marker - added an option that alow Weapon Engine Marker also show enemy's which is being locked
 
 BUG Fix
 - Fixed [Thickness of Ship System Marker's ring] option didn't works
