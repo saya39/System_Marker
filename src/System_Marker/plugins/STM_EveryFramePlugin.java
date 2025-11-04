@@ -221,8 +221,8 @@ public class STM_EveryFramePlugin extends BaseEveryFrameCombatPlugin {
     protected static Color getMixedColor(Color c1, float level, Color c2) {
         return new Color(
                 clamp(0, Math.round(c1.getRed() * (1f - level) + c2.getRed() * level), 255),
-                clamp(0, Math.round(c1.getRed() * (1f - level) + c2.getRed() * level), 255),
-                clamp(0, Math.round(c1.getRed() * (1f - level) + c2.getRed() * level), 255));
+                clamp(0, Math.round(c1.getGreen() * (1f - level) + c2.getGreen() * level), 255),
+                clamp(0, Math.round(c1.getBlue() * (1f - level) + c2.getBlue() * level), 255));
     }
 
     /**

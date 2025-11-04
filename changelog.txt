@@ -1,3 +1,6 @@
+2025/11/04 0.1.9-RC1
+Torpedo Alarm - added a missing option which should be added last update
+
 2025/04/27 0.1.9
 update to 0.98a
 Global - removed [Sync Color With Flux Reticle] option

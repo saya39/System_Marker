@@ -90,6 +90,7 @@ STM_torpedoAlarmHeader,Torpedo Alarm Header,Header,Torpedo Alarm,,,,,
 enableAlarm,Enable Torpedo Alarm,Boolean,true,,"Only works when at least one is enable between Torpedo Marker and Mine Marker.
 Plays three levels of alarms based on the total damage of torpedos and mines which Torpedo Marker and Mine Marker counted.",,,
 alarmVolumeMult,Audio volume of Torpedo Alarm,Double,1,,,0,999,
+alarmSE,Torpedo Alarm SE,String,"STM_alarm",,"Should type manually instead of using copy and paste, otherwise may cause a crash,",,,
 alarmDamageLv1,Threshold of Torpedo Alarm Lv1,Double,2000,,,0,999999,
 alarmDamageLv2,Threshold of Torpedo Alarm Lv2,Double,4000,,,0,999999,
 alarmDamageLv3,Threshold of Torpedo Alarm Lv3,Double,8000,,,0,999999,
