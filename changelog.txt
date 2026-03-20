@@ -1,3 +1,10 @@
+2026/03/20 0.1.10
+Ammo Remaining Marker - added two new mode
+ -ring：Shows remaining ammo's ratio as a ring
+ -percentage：Shows percentage of remaining ammo with numbers
+BUG Fix
+- Fixed [Thickness of Ship System Marker's ring] option didn't works
+
 2025/11/04 0.1.9-RC1
 Torpedo Alarm - added a missing option which should be added last update
 

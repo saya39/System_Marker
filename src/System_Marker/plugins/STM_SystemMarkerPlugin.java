@@ -7,7 +7,6 @@ import com.fs.starfarer.api.util.Misc;
 import lunalib.lunaSettings.LunaSettings;
 import org.json.JSONObject;
 import org.lazywizard.lazylib.ui.LazyFont;
-import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
 
 import java.awt.*;
@@ -243,16 +242,6 @@ public class STM_SystemMarkerPlugin extends STM_EveryFramePlugin {
 
         Vector2f loc = new Vector2f(Global.getSettings().getMouseX() + rotate(new Vector2f(shiftX, shiftY), aimAngle - 90f).x, Global.getSettings().getMouseY() + rotate(new Vector2f(shiftX, shiftY), aimAngle - 90f).y);
         drawFont(engine, drawable, "" + system.getAmmo(), systemColor, 90f, loc, fontSize, false);
-    }
-
-    private void drawArc(Color color, float alpha, float arc, Vector2f loc, float radius, float aimAngle, float aimAngleTop, float x, float y, float thickness) {
-        GL11.glLineWidth(thickness);
-        GL11.glColor4ub((byte) color.getRed(), (byte) color.getGreen(), (byte) color.getBlue(), (byte) Math.max(0, Math.min(Math.round(alpha * 255f), 255)));
-        GL11.glBegin(GL11.GL_LINE_STRIP);
-        for (int i = 0; i < Math.round(arc); i++) {
-            GL11.glVertex2f(loc.x + getPoint(rotate(new Vector2f(x, y), aimAngle - 90f), radius, aimAngleTop + i).x * engine.getViewport().getViewMult(), loc.y + getPoint(rotate(new Vector2f(x, y), aimAngle - 90f), radius, aimAngleTop + i).y * engine.getViewport().getViewMult());
-        }
-        GL11.glEnd();
     }
 
 }

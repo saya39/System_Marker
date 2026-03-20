@@ -41,10 +41,23 @@ specialMarkerAmmoShiftY,Vertical shift of the Special system's remaining,Double,
 STM_ammoRemainingMarkerHeader,Ammo Remaining Marker Header,Header,Ammo Remaining Marker,,,,,
 enableAmmoRemainingMarker,Enable Ammo Remaining Marker,Boolean,true,,"Shows weapons' ammo remaining of the ally ship which you locked on.
 The marker will fade after several seconds.",,,
-ammoRemainingMarkerRotateWithShip,Ammo Remaining Marker rotate with ship,Boolean,false,,,,,
+ammoRemainingRepairMarkerMode,Ammo Remaining Marker's mode,Radio,"ring","ring, value, percentage","Toggle the mode of Ammo Remaining Marker.
+ - ring
+Shows remaining ammo's ratio with rings.
+ - value 
+Shows remaining ammo with numbers.
+ - percentage
+Shows percentage of remaining ammo with numbers.",,,
+ammoRemainingMarkerRotateWithShip,Ammo Remaining Marker rotate with ship,Boolean,true,,,,,
 ammoRemainingMarkerFontSize,Font size of Ammo Remaining Marker,Double,12,,,0,999,
 ammoRemainingMarkerDisplayingTime,Displaying Time of Ammo Remaining Marker,Double,3,,,0,999,
 ammoRemainingMarkerFadingTime,Fading Time of Ammo Remaining Marker,Double,0.2,,,0,999,
+ammoRemainingMarkerRingRadiusSmall,Ammo Remaining Marker ring's size of small slot weapons,Double,10,,,0,999,
+ammoRemainingMarkerRingRadiusMedium,Ammo Remaining Marker ring's size of medium slot weapons,Double,14,,,0,999,
+ammoRemainingMarkerRingRadiusLarge,Ammo Remaining Marker ring's size of large slot weapons,Double,20,,,0,999,
+ammoRemainingMarkerRingThickness,Thickness of Ammo Remaining Marker's ring,Double,2,,,1,999,
+ammoRemainingMarkerRingAlphaMain,Alpha of Ammo Remaining Marker's main ring,Double,0.8,,,0,1,
+ammoRemainingMarkerRingAlphaBack,Alpha of Ammo Remaining Marker's back ring,Double,0.1,,,0,1,
 ,,,,,,,,
 STM_weaponRepairMarkerHeader,Weapon repair Marker Header,Header,Weapon repair Marker,,,,,
 enableWeaponRepairMarker,Enable Weapon repair Marker,Boolean,true,,"Shows offlined weapons' repair progress of your ship and the ally ship which you locked on.",,,
@@ -154,5 +167,5 @@ STM_ColorEndHeader,Color End Header,Header,Remember you've never seen this,,,,,C
 STM_ColorEnd1,Remember you've never seen this,Boolean,false,,,,,Colors
 STM_ColorEnd2,Remember you've never seen this,Color,#f22e6e,,,,,Colors
 ,,,,,,,,
-STM_distanceMarkerHeader,Distance Marker Header,Header,Distance Marker,,,,,实验性
-enableDistanceMarker,Enable Distance Marker,Boolean,false,,"Shows distance from cursor to ship or spicifical weapon.",,,实验性
+STM_distanceMarkerHeader,Distance Marker Header,Header,Distance Marker,,,,,experimental
+enableDistanceMarker,Enable Distance Marker,Boolean,false,,"Shows distance from cursor to ship or spicifical weapon.",,,experimental

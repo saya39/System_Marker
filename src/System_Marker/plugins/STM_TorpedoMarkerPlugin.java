@@ -263,7 +263,7 @@ public class STM_TorpedoMarkerPlugin extends STM_EveryFramePlugin {
             loc = new Vector2f(loc.x - (missile.getVelocity().x + rotate(new Vector2f(), missile.getFacing()).x * aVel) * t, loc.y - (missile.getVelocity().y + rotate(new Vector2f(), missile.getFacing()).y * aVel) * t);
         }
 
-        drawArc(color, alpha, 360f, loc, torpedoMarkerSizeMult * missile.getCollisionRadius() / viewport.getViewMult(), 0f, torpedoMarkerThickness / viewport.getViewMult());
+        drawArcFacing(color, alpha, 360f, loc, torpedoMarkerSizeMult * missile.getCollisionRadius() / viewport.getViewMult(), 0f, torpedoMarkerThickness / viewport.getViewMult());
         return dangerClass;
     }
 
@@ -315,7 +315,7 @@ public class STM_TorpedoMarkerPlugin extends STM_EveryFramePlugin {
     private void drawMineMarker(Color color, float alpha, Vector2f loc, float radius, float facing, ViewportAPI viewport) {
         float radiusArc = radius / viewport.getViewMult();
         for (int i = 0; i < 3; i++) {
-            drawArc(color, alpha, 60f, loc, radiusArc, i * 120f + 90f - 30f - 180f + facing, 2f / engine.getViewport().getViewMult());
+            drawArcFacing(color, alpha, 60f, loc, radiusArc, i * 120f + 90f - 30f - 180f + facing, 2f / engine.getViewport().getViewMult());
             drawTriangle(color, alpha, getPoint(loc, radius, i * 120f + 90f + facing), radius / 2.5f, i * 120f + 180f + facing);
         }
 
@@ -330,16 +330,6 @@ public class STM_TorpedoMarkerPlugin extends STM_EveryFramePlugin {
         } else if (dangerClass > alarmDamageLv3) {
             Global.getSoundPlayer().playLoop(alarmSE + "_lv3", ship, 1f, alarmVolumeMult, ship.getLocation(), ship.getVelocity(), 0f, 0.5f);
         }
-    }
-
-    private void drawArc(Color color, float alpha, float arc, Vector2f loc, float radius, float facing, float thickness) {
-        GL11.glLineWidth(thickness);
-        GL11.glColor4ub((byte) color.getRed(), (byte) color.getGreen(), (byte) color.getBlue(), (byte) Math.max(0, Math.min(Math.round(alpha * 255f), 255)));
-        GL11.glBegin(GL11.GL_LINE_STRIP);
-        for (int i = 0; i < Math.round(arc); i++) {
-            GL11.glVertex2f(getPoint(loc, radius * engine.getViewport().getViewMult(), facing + i).x, getPoint(loc, radius * engine.getViewport().getViewMult(), facing + i).y);
-        }
-        GL11.glEnd();
     }
 
     private void drawTriangle(Color color, float alpha, Vector2f loc, float radius, float facing) {

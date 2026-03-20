@@ -363,4 +363,25 @@ public class STM_EveryFramePlugin extends BaseEveryFrameCombatPlugin {
         GL11.glPopMatrix();
         GL11.glPopAttrib();
     }
+
+    protected void drawArc(Color color, float alpha, float arc, Vector2f loc, float radius, float aimAngle, float aimAngleTop, float x, float y, float thickness) {
+        GL11.glLineWidth(thickness);
+        GL11.glColor4ub((byte) color.getRed(), (byte) color.getGreen(), (byte) color.getBlue(), (byte) Math.max(0, Math.min(Math.round(alpha * 255f), 255)));
+        GL11.glBegin(GL11.GL_LINE_STRIP);
+        for (int i = 0; i < Math.round(arc); i++) {
+            GL11.glVertex2f(loc.x + getPoint(rotate(new Vector2f(x, y), aimAngle - 90f), radius, aimAngleTop + i).x * engine.getViewport().getViewMult(), loc.y + getPoint(rotate(new Vector2f(x, y), aimAngle - 90f), radius, aimAngleTop + i).y * engine.getViewport().getViewMult());
+        }
+        GL11.glEnd();
+    }
+
+    protected void drawArcFacing(Color color, float alpha, float arc, Vector2f loc, float radius, float facing, float thickness) {
+        GL11.glLineWidth(thickness);
+        GL11.glColor4ub((byte) color.getRed(), (byte) color.getGreen(), (byte) color.getBlue(), (byte) Math.max(0, Math.min(Math.round(alpha * 255f), 255)));
+        GL11.glBegin(GL11.GL_LINE_STRIP);
+        for (int i = 0; i < Math.round(arc); i++) {
+            GL11.glVertex2f(getPoint(loc, radius * engine.getViewport().getViewMult(), facing + i).x, getPoint(loc, radius * engine.getViewport().getViewMult(), facing + i).y);
+        }
+        GL11.glEnd();
+    }
+
 }
